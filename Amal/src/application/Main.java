@@ -26,11 +26,11 @@ public class Main extends Application {
         primaryStage.setTitle("Drawing Shapes");
 
         // Create a canvas to draw on
-        Canvas canvas = new Canvas(500, 400);
+        Canvas canvas = new Canvas(1000, 600);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
        
-        Image rectangleImage = new Image(getClass().getResourceAsStream("RRectangle2.jpg"));
+        Image rectangleImage = new Image(getClass().getResourceAsStream("squareR.png"));
         Button rectangleButton = new Button(null, new javafx.scene.image.ImageView(rectangleImage));
         rectangleButton.setOnAction(event -> {
             currentShape = new Rectangle();
@@ -39,7 +39,7 @@ public class Main extends Application {
           //  rectangleButton.setPrefSize(5, 5);
         });
         
-        Image circleImage = new Image(getClass().getResourceAsStream("circle2.jpg"));
+        Image circleImage = new Image(getClass().getResourceAsStream("circle.png"));
         Button circleButton = new Button(null, new javafx.scene.image.ImageView(circleImage));
         circleButton.setOnAction(event -> {
             currentShape = new Circle();
@@ -52,9 +52,9 @@ public class Main extends Application {
 
         // Add the canvas and button to a layout
         BorderPane root = new BorderPane();
-        root.setCenter(canvas);
-       // root.setTop(rectangleButton);
+        root.setCenter(canvas); 
         root.setTop(new HBox(rectangleButton, circleButton));
+        
         // Handle mouse events to draw the shapes
         canvas.setOnMousePressed(event -> {
             if (isDrawing) {
