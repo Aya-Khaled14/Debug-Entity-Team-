@@ -123,17 +123,7 @@ public class Main extends Application {
             gc.strokeOval(startX - radius, startY - radius, radius * 2, radius * 2);
         }
     }
-    private void redraw1(GraphicsContext gc) {
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
-        for (Shape shape : shapes) {
-            shape.draw(gc);
-        }
-        if (currentShape != null) {
-            gc.setFill(Color.WHITE);
-            currentShape.draw(gc);
-        }
-    }
+    
 
     public static void main(String[] args) {
         launch(args);
