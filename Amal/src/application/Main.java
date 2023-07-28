@@ -29,7 +29,7 @@ public class Main extends Application {
         Canvas canvas = new Canvas(500, 400);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        // Create a button to select the rectangle
+       
         Image rectangleImage = new Image(getClass().getResourceAsStream("RRectangle2.jpg"));
         Button rectangleButton = new Button(null, new javafx.scene.image.ImageView(rectangleImage));
         rectangleButton.setOnAction(event -> {
