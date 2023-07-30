@@ -5,6 +5,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -14,26 +16,48 @@ import javafx.scene.layout.HBox;
 import java.util.ArrayList;
 import java.util.List;
 
+//import application.Main.Shape;
+
 public class Main extends Application {
 
     private final List<Shape> shapes = new ArrayList<>();
     private Shape currentShape;
     private boolean isDrawing = false;
     private int flag = 0;
+    private ColorPicker colorPicker;
+    private ComboBox<String> fillComboBox;
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Drawing Shapes");
 
         // Create a canvas to draw on
-        Canvas canvas = new Canvas(1000, 600);
+        Canvas canvas = new Canvas(725, 600);
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        
+     // color 
+        colorPicker = new ColorPicker(Color.BLACK);
+        
+        //fill 
+        fillComboBox = new ComboBox<>();
+        fillComboBox.getItems().addAll("None", "Solid");
+        fillComboBox.setValue("None");
+        
+        
+        
+        
+        
 
        
         Image rectangleImage = new Image(getClass().getResourceAsStream("rectangle2.png"));
         Button rectangleButton = new Button(null, new javafx.scene.image.ImageView(rectangleImage));
         rectangleButton.setOnAction(event -> {
             currentShape = new Rectangle();
+            currentShape.color = colorPicker.getValue();
+            if (fillComboBox.getValue().equals("Solid")) {
+                currentShape.isFilled = true;
+                currentShape.fillColor = colorPicker.getValue();
+            }
             isDrawing = true;
             flag=1;
          
@@ -43,6 +67,11 @@ public class Main extends Application {
         Button circleButton = new Button(null, new javafx.scene.image.ImageView(circleImage));
         circleButton.setOnAction(event -> {
             currentShape = new Circle();
+            currentShape.color = colorPicker.getValue();
+            if (fillComboBox.getValue().equals("Solid")) {
+                currentShape.isFilled = true;
+                currentShape.fillColor = colorPicker.getValue();
+            }
             isDrawing = true;
             flag=2;
         
@@ -53,7 +82,7 @@ public class Main extends Application {
         // Add the canvas and button to a layout
         BorderPane root = new BorderPane();
         root.setCenter(canvas); 
-        root.setTop(new HBox(rectangleButton, circleButton));
+        root.setTop(new HBox(rectangleButton, circleButton, fillComboBox, colorPicker));
         
         // Handle mouse events to draw the shapes
         canvas.setOnMousePressed(event -> {
@@ -80,6 +109,11 @@ public class Main extends Application {
                 	currentShape = new Rectangle();
                 else if (flag==2)
                 currentShape = new Circle();
+                currentShape.color = colorPicker.getValue();
+                if (fillComboBox.getValue().equals("Solid")) {
+                    currentShape.isFilled = true;
+                    currentShape.fillColor = colorPicker.getValue();
+                }
               //  isDrawing = false;
             }
         });
@@ -102,23 +136,36 @@ public class Main extends Application {
 
     private abstract class Shape {
         double startX, startY, endX, endY;
+        Color color;
+        boolean isFilled;
+        Color fillColor;
 
         abstract void draw(GraphicsContext gc);
     }
+    
+    // Rectangle class
 
     private class Rectangle extends Shape {
         @Override
         void draw(GraphicsContext gc) {
-            gc.setStroke(Color.BLACK);
-            gc.setLineWidth(2);
+            gc.setStroke(color);
+            if (isFilled) {
+                gc.setFill(fillColor);
+                gc.fillRect(startX, startY, endX - startX, endY - startY);
+            }
             gc.strokeRect(startX, startY, endX - startX, endY - startY);
         }
     }
+    //Circle class
     private class Circle extends Shape {
         @Override
         void draw(GraphicsContext gc) {
-            gc.setStroke(Color.BLACK);
-            gc.setLineWidth(2);
+            gc.setStroke(color);
+            if (isFilled) {
+                gc.setFill(fillColor);
+                double radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+                gc.fillOval(startX - radius, startY - radius, radius * 2, radius * 2);
+            }
             double radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
             gc.strokeOval(startX - radius, startY - radius, radius * 2, radius * 2);
         }
