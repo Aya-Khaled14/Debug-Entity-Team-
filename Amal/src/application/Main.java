@@ -30,22 +30,22 @@ public class Main extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
        
-        Image rectangleImage = new Image(getClass().getResourceAsStream("squareR.png"));
+        Image rectangleImage = new Image(getClass().getResourceAsStream("rectangle2.png"));
         Button rectangleButton = new Button(null, new javafx.scene.image.ImageView(rectangleImage));
         rectangleButton.setOnAction(event -> {
             currentShape = new Rectangle();
             isDrawing = true;
             flag=1;
-          //  rectangleButton.setPrefSize(5, 5);
+         
         });
         
-        Image circleImage = new Image(getClass().getResourceAsStream("circle.png"));
+        Image circleImage = new Image(getClass().getResourceAsStream("circle2.png"));
         Button circleButton = new Button(null, new javafx.scene.image.ImageView(circleImage));
         circleButton.setOnAction(event -> {
             currentShape = new Circle();
             isDrawing = true;
             flag=2;
-        //    circleButton.setPrefSize(5, 5);
+        
         });
        
        
